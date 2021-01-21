@@ -9,7 +9,7 @@ VERSION = '0.0.1'
 setup(
     name='onelibs',
     version=VERSION,
-    description='one libs',
+    description='onelibs is an out-of-the-box libs written in python',
     author='codingcat',
     author_email='istommao@gmail.com',
     install_requires=INSTALL_REQUIRES,
