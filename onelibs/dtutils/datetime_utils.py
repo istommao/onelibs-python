@@ -2,6 +2,8 @@
 import time
 import datetime
 
+from functools import singledispatch
+
 
 def get_date_from_str(date_str: str, fmt='%Y-%m-%d') -> datetime.datetime:
     """Get datetime from str"""
@@ -19,18 +21,66 @@ def get_datetime_from_ts(timestamp: int) -> datetime.datetime:
     return result
 
 
-def get_datetime_str(timestamp: int, fmt='%Y-%m-%d %H:%M:%S') -> str:
-    """Get format datetime."""
+@singledispatch
+def get_datetime_str(obj, fmt='%Y-%m-%d %H:%M:%S'):
+    pass
+
+
+@get_datetime_str.register(int)
+def _(timestamp, fmt='%Y-%m-%d %H:%M:%S'):
+    """Get datetime str from timestamp"""
     return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
-def get_date_str(timestamp: int, fmt='%Y-%m-%d') -> str:
-    """Get format date."""
+@get_datetime_str.register(datetime.datetime)
+def _(dtobj, fmt='%Y-%m-%d %H:%M:%S'):
+    """Get datetime str from datetime obj"""
+    return dtobj.strftime(fmt)
+
+
+@singledispatch
+def get_date_str(obj, fmt='%Y-%m-%d'):
+    pass
+
+
+@get_date_str.register(int)
+def _(timestamp, fmt='%Y-%m-%d') -> str:
+    """Get date str from timestamp"""
     return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
-def get_time_str(timestamp: int, fmt='%H:%M:%S') -> str:
-    """Get format time."""
+@get_date_str.register(datetime.datetime)
+def _(dtobj, fmt='%Y-%m-%d') -> str:
+    """Get date str from datetime obj"""
+    return dtobj.strftime(fmt)
+
+
+@get_date_str.register(datetime.date)
+def _(dtobj, fmt='%Y-%m-%d') -> str:
+    """Get date str from date obj"""
+    return dtobj.strftime(fmt)
+
+
+@singledispatch
+def get_time_str(obj, fmt='%H:%M:%S'):
+    pass
+
+
+@get_time_str.register(datetime.datetime)
+def _(dtobj, fmt='%H:%M:%S') -> str:
+    """Get time str from datetime obj"""
+    return dtobj.strftime(fmt)
+
+
+@get_time_str.register(datetime.date)
+def _(dtobj, fmt='%H:%M:%S') -> str:
+    """Get time str from date obj"""
+    return dtobj.strftime(fmt)
+
+
+@get_time_str.register(int)
+def _(timestamp, fmt='%H:%M:%S') -> str:
+    """Get time str from timestamp obj"""
     return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
