@@ -3,15 +3,13 @@ import time
 import datetime
 
 
-def get_date_from_str(date_str: str) -> datetime.datetime:
+def get_date_from_str(date_str: str, fmt='%Y-%m-%d') -> datetime.datetime:
     """Get datetime from str"""
-    fmt = '%Y-%m-%d'
     return datetime.datetime.strptime(date_str, fmt).date()
 
 
-def get_datetime_from_str(datetime_str: str) -> datetime.datetime:
+def get_datetime_from_str(datetime_str: str, fmt='%Y-%m-%d %H:%M:%S') -> datetime.datetime:
     """Get datetime from str"""
-    fmt = '%Y-%m-%d %H:%M:%S'
     return datetime.datetime.strptime(datetime_str, fmt)
 
 
@@ -21,19 +19,19 @@ def get_datetime_from_ts(timestamp: int) -> datetime.datetime:
     return result
 
 
-def get_datetime_str(timestamp: int):
+def get_datetime_str(timestamp: int, fmt='%Y-%m-%d %H:%M:%S'):
     """Get format datetime."""
-    return get_datetime_from_ts(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
-def get_date_str(timestamp: int):
+def get_date_str(timestamp: int, fmt='%Y-%m-%d'):
     """Get format date."""
-    return get_datetime_from_ts(timestamp).strftime('%Y-%m-%d')
+    return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
-def get_time_str(timestamp: int):
+def get_time_str(timestamp: int, fmt='%H:%M:%S'):
     """Get format time."""
-    return get_datetime_from_ts(timestamp).strftime('%H:%M:%S')
+    return get_datetime_from_ts(timestamp).strftime(fmt)
 
 
 def get_today_max_ts():
